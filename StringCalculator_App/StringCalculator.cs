@@ -10,16 +10,14 @@ namespace StringCalculator_App
             if (string.IsNullOrEmpty(input))
             { 
                 return 0;
-            } else
-            {
-                string[] inputs = input.Split(new Char[] { ',', '\n'});
+            } 
+            
+            string[] inputs = input.Split(new Char[] { ',', '\n'});
                
-                int[] inputsInt = Array.ConvertAll(inputs, int.Parse);
+            int[] inputsInt = Array.ConvertAll(inputs, int.Parse);
 
-                return inputsInt.Sum();
-            }
+            return inputsInt.Sum();
 
-        }
-             
+        }       
     }
 }
