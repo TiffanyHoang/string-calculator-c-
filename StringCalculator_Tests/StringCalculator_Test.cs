@@ -49,5 +49,26 @@ namespace StringCalculator_Tests
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void GivenFourNumbersStringWithLineBreaksAndCommas_ReturnTheSumOfTheFourNumbers()
+        {
+            string input = "3\n5\n3,9";
+
+            int expected = 20;
+            int actual = StringCalculator.Add(input);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GivenTwoNumbersStringWithCustomDelimiter_ReturnTheSumOfTheTwoNumbers()
+        {
+            string input = "//;\n1;2";
+            int expected = 3;
+            int actual = StringCalculator.Add(input);
+
+            Assert.Equal(expected, actual);
+        }
     }
 }

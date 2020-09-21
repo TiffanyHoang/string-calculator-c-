@@ -10,13 +10,22 @@ namespace StringCalculator_App
             if (string.IsNullOrEmpty(input))
             { 
                 return 0;
-            } 
-            
-            string[] inputs = input.Split(new Char[] { ',', '\n'});
-               
-            int[] inputsInt = Array.ConvertAll(inputs, int.Parse);
+            }
+            if (input.StartsWith("//"))
+            {
+                char delimeter = input[2];
+                string newInputs = input.Remove(0,3);
+                string[] inputs = newInputs.Split(delimeter);
 
-            return inputsInt.Sum();
+                int[] numbers = Array.ConvertAll(inputs, int.Parse);
+                return numbers.Sum();
+            }
+            else
+            {
+                string[] inputs = input.Split(new Char[] { ',', '\n' });
+                int[] numbers = Array.ConvertAll(inputs, int.Parse);
+                return numbers.Sum();
+            }
 
         }       
     }
