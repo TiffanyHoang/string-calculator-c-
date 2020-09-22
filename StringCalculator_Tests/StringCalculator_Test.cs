@@ -70,5 +70,49 @@ namespace StringCalculator_Tests
 
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void GivenNegativeNumbers_ReturnException()
+        {
+                string input = "-1,2,-3";
+                StringCalculator.Add(input);
+        }
+
+        [Fact]
+        public void GivenNegativeNumbersWithCustomDelimiter_ReturnException()
+        {
+            string input = "//;\n1;-3";
+            StringCalculator.Add(input);
+        }
+
+        [Fact]
+        public void GivenTheeNumbersWithTwoNumberIsOver1000_ReturnTheSumOfNumberLessThan1000()
+        {
+            string input = "1000,1001,2";
+            int expected = 2;
+            int actual = StringCalculator.Add(input);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void GivenTheeNumbersWithTwoNumberIsOver1000AndWithCustomDelimiter_ReturnTheSumOfNumberLessThan1000()
+        {
+            string input = "//;\n1;2000";
+            int expected = 1;
+            int actual = StringCalculator.Add(input);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void Given3LengthDelimiterBetweenThreeNumbers_ReturnTheSumOfTheThreeNumber()
+        {
+            string input = "//[***]\n1***2***3";
+            int expected = 6;
+            int actual = StringCalculator.Add(input);
+
+            Assert.Equal(expected, actual);
+        }
     }
 }

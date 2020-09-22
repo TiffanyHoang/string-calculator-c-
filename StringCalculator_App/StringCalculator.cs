@@ -13,20 +13,48 @@ namespace StringCalculator_App
             }
             if (input.StartsWith("//"))
             {
-                char delimeter = input[2];
-                string newInputs = input.Remove(0,3);
-                string[] inputs = newInputs.Split(delimeter);
+                char delimiter = input[2];
+                string inputsString = input.Remove(0, 3);
 
-                int[] numbers = Array.ConvertAll(inputs, int.Parse);
-                return numbers.Sum();
+                string[] inputs = inputsString.Split(delimiter);
+
+                return Calculate(inputs);
             }
             else
             {
                 string[] inputs = input.Split(new Char[] { ',', '\n' });
-                int[] numbers = Array.ConvertAll(inputs, int.Parse);
-                return numbers.Sum();
-            }
 
-        }       
+                return Calculate(inputs);
+            }
+        }
+
+        private static int Calculate(string[] inputs)
+        {
+            int[] numbers = Array.ConvertAll(inputs, int.Parse);
+
+            List<int> validNumbers = GetValidNumbers(numbers);
+
+            return validNumbers.Sum();
+
+        }
+
+        private static List<int> GetValidNumbers(int[] numbers)
+        {
+            CheckForNegativeNumber(numbers);
+            List<int> validNumbers = numbers.Where(number => number < 1000).ToList();
+            return validNumbers;
+        }
+
+        private static void CheckForNegativeNumber(int[] numbers)
+        {
+            List<int> negativeNumbers = numbers.Where(number => number < 0).ToList();
+
+            string negativeNumbersString = string.Join(",", negativeNumbers);
+
+            if (negativeNumbers.Any())
+            {
+                throw new ArgumentException("Negatives not allowed:" + negativeNumbersString);
+            }
+        }
     }
 }
