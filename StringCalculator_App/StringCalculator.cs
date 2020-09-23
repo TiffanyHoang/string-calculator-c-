@@ -1,17 +1,36 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
 namespace StringCalculator_App
 {
     public class StringCalculator
     {
         public static int Add(string input)
         {
+            bool isSingleCustomDelimiter = input.StartsWith("//");
+
+            bool isMultiCustomDelimiter = Regex.IsMatch(input, @"\/\/\[.*?\]");
+
             if (string.IsNullOrEmpty(input))
             { 
                 return 0;
             }
-            if (input.StartsWith("//"))
+
+            if (isMultiCustomDelimiter)
+            {
+                Regex rxDelimiter = new Regex(@"(?<=\[).*?(?=\])");
+
+                string delimiter = rxDelimiter.Matches(input).ToString();
+                
+                string inputsString = input.Remove(0, 4 + delimiter.Length);
+
+                string[] inputs = inputsString.Split(delimiter);
+
+                return Calculate(inputs);
+
+            } else if(isSingleCustomDelimiter)
             {
                 char delimiter = input[2];
                 string inputsString = input.Remove(0, 3);
@@ -51,7 +70,7 @@ namespace StringCalculator_App
 
             string negativeNumbersString = string.Join(",", negativeNumbers);
 
-            if (negativeNumbers.Any())
+            if (numbers.Any(number => number < 0))
             {
                 throw new ArgumentException("Negatives not allowed:" + negativeNumbersString);
             }

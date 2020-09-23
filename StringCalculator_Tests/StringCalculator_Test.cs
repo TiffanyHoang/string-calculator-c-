@@ -7,7 +7,7 @@ namespace StringCalculator_Tests
     public class StringCalculator_CalculatorShould
     {
         [Fact]
-        public void GivenAnEmptyString_Return0()
+        public void Add_EmptyString_Return0()
         {
             string input = "";
 
@@ -18,7 +18,7 @@ namespace StringCalculator_Tests
         }
 
         [Fact]
-        public void GivenASingleNumberString_ReturnTheSingleNumber()
+        public void Add_SingleNumberString_ReturnTheSingleNumber()
         {
             string input = "3";
 
@@ -29,7 +29,7 @@ namespace StringCalculator_Tests
         }
 
         [Fact]
-        public void GivenTwoNumbersString_ReturnTheSumOfTheTwoNumbers()
+        public void Add_TwoNumbersString_ReturnTheSumOfTheTwoNumbers()
         {
             string input = "3,3";
 
@@ -40,7 +40,7 @@ namespace StringCalculator_Tests
         }
 
         [Fact]
-        public void GivenFourNumbersString_ReturnTheSumOfTheFourNumbers()
+        public void Add_FourNumbersString_ReturnTheSumOfTheFourNumbers()
         {
             string input = "3,3,5,4";
 
@@ -51,7 +51,7 @@ namespace StringCalculator_Tests
         }
 
         [Fact]
-        public void GivenFourNumbersStringWithLineBreaksAndCommas_ReturnTheSumOfTheFourNumbers()
+        public void Add_FourNumbersStringWithLineBreaksAndCommas_ReturnTheSumOfTheFourNumbers()
         {
             string input = "3\n5\n3,9";
 
@@ -62,7 +62,7 @@ namespace StringCalculator_Tests
         }
 
         [Fact]
-        public void GivenTwoNumbersStringWithCustomDelimiter_ReturnTheSumOfTheTwoNumbers()
+        public void Add_TwoNumbersStringWithCustomDelimiter_ReturnTheSumOfTheTwoNumbers()
         {
             string input = "//;\n1;2";
             int expected = 3;
@@ -72,21 +72,31 @@ namespace StringCalculator_Tests
         }
 
         [Fact]
-        public void GivenNegativeNumbers_ReturnException()
+        public void Add_NegativeNumbers_ReturnException()
         {
-                string input = "-1,2,-3";
-                StringCalculator.Add(input);
+            string input = "-1,2,-3";
+
+            string expected = "Negatives not allowed:-1,-3";
+
+            var actual = Assert.Throws<ArgumentException>(() => StringCalculator.Add(input)).Message;
+
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void GivenNegativeNumbersWithCustomDelimiter_ReturnException()
+        public void Add_NegativeNumbersWithCustomDelimiter_ReturnException()
         {
             string input = "//;\n1;-3";
-            StringCalculator.Add(input);
+
+            string expected = "Negatives not allowed:-3";
+
+            var actual = Assert.Throws<ArgumentException>(() => StringCalculator.Add(input)).Message;
+
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void GivenTheeNumbersWithTwoNumberIsOver1000_ReturnTheSumOfNumberLessThan1000()
+        public void Add_TheeNumbersWithTwoNumberIsOver1000_ReturnTheSumOfNumberLessThan1000()
         {
             string input = "1000,1001,2";
             int expected = 2;
@@ -96,7 +106,7 @@ namespace StringCalculator_Tests
         }
 
         [Fact]
-        public void GivenTheeNumbersWithTwoNumberIsOver1000AndWithCustomDelimiter_ReturnTheSumOfNumberLessThan1000()
+        public void Add_TheeNumbersWithTwoNumberIsOver1000AndWithCustomDelimiter_ReturnTheSumOfNumberLessThan1000()
         {
             string input = "//;\n1;2000";
             int expected = 1;
@@ -105,11 +115,11 @@ namespace StringCalculator_Tests
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public void Given3LengthDelimiterBetweenThreeNumbers_ReturnTheSumOfTheThreeNumber()
+        [Theory]
+        [InlineData("//[***]\n1***2***3",6)]
+        [InlineData("//[***]\n5***3***10", 18)]
+        public void Add_3LengthDelimiterBetweenThreeNumbers_ReturnTheSumOfTheThreeNumber(string input, int expected)
         {
-            string input = "//[***]\n1***2***3";
-            int expected = 6;
             int actual = StringCalculator.Add(input);
 
             Assert.Equal(expected, actual);
