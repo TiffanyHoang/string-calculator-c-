@@ -20,11 +20,15 @@ namespace StringCalculator_App
 
             if (isMultiCustomDelimiter)
             {
-                string delimiter = input.Split('[',']')[1];
+                string[] stringArray = input.Split('[', ']');
 
-                string inputsString = input.Substring(input.IndexOf("\n"));
+                string[] stringArrayWithoutStartLashes = stringArray.Skip(1).ToArray();
 
-                string[] inputs = inputsString.Split(delimiter);
+                string[] delimiter = stringArrayWithoutStartLashes.Reverse().Skip(1).Reverse().ToArray();
+
+                string inputsString = stringArray[stringArray.Length - 1];
+
+                string[] inputs = inputsString.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
 
                 return Calculate(inputs);
 
