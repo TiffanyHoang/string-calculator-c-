@@ -24,11 +24,11 @@ namespace StringCalculator_App
 
                 string[] stringArrayWithoutStartLashes = stringArray.Skip(1).ToArray();
 
-                string[] delimiter = stringArrayWithoutStartLashes.Reverse().Skip(1).Reverse().ToArray();
+                string[] delimiters = stringArrayWithoutStartLashes.Reverse().Skip(1).Reverse().ToArray();
 
                 string inputsString = stringArray[stringArray.Length - 1];
 
-                string[] inputs = inputsString.Split(delimiter, StringSplitOptions.RemoveEmptyEntries);
+                string[] inputs = inputsString.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
 
                 return Calculate(inputs);
 
