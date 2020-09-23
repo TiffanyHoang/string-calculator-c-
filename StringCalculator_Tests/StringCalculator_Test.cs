@@ -71,45 +71,21 @@ namespace StringCalculator_Tests
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public void Add_NegativeNumbers_ReturnException()
+        [Theory]
+        [InlineData("-1,2,-3", "Negatives not allowed:-1,-3")]
+        [InlineData("//;\n1;-3", "Negatives not allowed:-3")]
+        public void Add_NegativeNumbers_ReturnException(string input, string expected)
         {
-            string input = "-1,2,-3";
-
-            string expected = "Negatives not allowed:-1,-3";
-
             var actual = Assert.Throws<ArgumentException>(() => StringCalculator.Add(input)).Message;
 
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public void Add_NegativeNumbersWithCustomDelimiter_ReturnException()
+        [Theory]
+        [InlineData("1000,1001,2", 2)]
+        [InlineData("//;\n1;2000", 1)]
+        public void Add_NumberswithNumbersAreOver1000_ReturnTheSumOfNumberLessThan1000(string input, int expected)
         {
-            string input = "//;\n1;-3";
-
-            string expected = "Negatives not allowed:-3";
-
-            var actual = Assert.Throws<ArgumentException>(() => StringCalculator.Add(input)).Message;
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void Add_TheeNumbersWithTwoNumberIsOver1000_ReturnTheSumOfNumberLessThan1000()
-        {
-            string input = "1000,1001,2";
-            int expected = 2;
-            int actual = StringCalculator.Add(input);
-
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void Add_TheeNumbersWithTwoNumberIsOver1000AndWithCustomDelimiter_ReturnTheSumOfNumberLessThan1000()
-        {
-            string input = "//;\n1;2000";
-            int expected = 1;
             int actual = StringCalculator.Add(input);
 
             Assert.Equal(expected, actual);
@@ -119,6 +95,15 @@ namespace StringCalculator_Tests
         [InlineData("//[***]\n1***2***3",6)]
         [InlineData("//[***]\n5***3***10", 18)]
         public void Add_3LengthDelimiterBetweenThreeNumbers_ReturnTheSumOfTheThreeNumber(string input, int expected)
+        {
+            int actual = StringCalculator.Add(input);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("//[*][%]\n1*2%3", 6)]
+        public void Add_NumbersWithMultiDelimiter_ReturnTheSumOfNumbers(string input, int expected)
         {
             int actual = StringCalculator.Add(input);
 

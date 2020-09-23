@@ -20,11 +20,9 @@ namespace StringCalculator_App
 
             if (isMultiCustomDelimiter)
             {
-                Regex rxDelimiter = new Regex(@"(?<=\[).*?(?=\])");
+                string delimiter = input.Split('[',']')[1];
 
-                string delimiter = rxDelimiter.Matches(input).ToString();
-                
-                string inputsString = input.Remove(0, 4 + delimiter.Length);
+                string inputsString = input.Substring(input.IndexOf("\n"));
 
                 string[] inputs = inputsString.Split(delimiter);
 
@@ -33,7 +31,8 @@ namespace StringCalculator_App
             } else if(isSingleCustomDelimiter)
             {
                 char delimiter = input[2];
-                string inputsString = input.Remove(0, 3);
+
+                string inputsString = input.Substring(input.IndexOf("\n"));
 
                 string[] inputs = inputsString.Split(delimiter);
 
