@@ -26,6 +26,8 @@ namespace StringCalculator_App
 
                 string[] delimiters = stringArrayWithoutStartLashes.Reverse().Skip(1).Reverse().ToArray();
 
+                CheckForValidDelimiter(delimiters);
+
                 string inputsString = stringArray[stringArray.Length - 1];
 
                 string[] inputs = inputsString.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
@@ -76,6 +78,16 @@ namespace StringCalculator_App
             if (numbers.Any(number => number < 0))
             {
                 throw new ArgumentException("Negatives not allowed:" + negativeNumbersString);
+            }
+        }
+
+        private static void CheckForValidDelimiter(string[] delimiters)
+        {
+            string rxNumberAtEdge = @"(^\d)|(\d$)";
+
+            if (delimiters.Any(delimiter => Regex.IsMatch(delimiter, rxNumberAtEdge)))
+            {
+                throw new ArgumentException("Invalid Delimiter");
             }
         }
     }

@@ -105,11 +105,19 @@ namespace StringCalculator_Tests
         [InlineData("//[*][%]\n1*2%3", 6)]
         [InlineData("//[***][#][%]\n1***2#3%4", 10)]
         [InlineData("//[*1*][%]\n1*1*2%3", 6)]
-        [InlineData("//[**1][%]\n1**11**12**13", 7)]
-        [InlineData("//[1**][%]\n11**11**21**3", 7)]
         public void Add_NumbersWithMultiDelimiter_ReturnTheSumOfNumbers(string input, int expected)
         {
             int actual = StringCalculator.Add(input);
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("//[**1][%]\n1**11**12**13", "Invalid Delimiter")]
+        [InlineData("//[1**][%]\n11**11**21**3", "Invalid Delimiter")]
+        public void Add_NumbersWitNumberAtEdgeDelimiter_ReturnException(string input, string expected)
+        {
+            var actual = Assert.Throws<ArgumentException>(() => StringCalculator.Add(input)).Message;
 
             Assert.Equal(expected, actual);
         }
