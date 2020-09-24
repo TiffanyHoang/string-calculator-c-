@@ -22,9 +22,11 @@ namespace StringCalculator_App
             {
                 string[] stringArray = input.Split('[', ']');
 
-                string[] stringArrayWithoutStartLashes = stringArray.Skip(1).ToArray();
+                //string[] stringArrayWithoutStartLashes = stringArray.Skip(1).ToArray();
 
-                string[] delimiters = stringArrayWithoutStartLashes.Reverse().Skip(1).Reverse().ToArray();
+                //string[] delimiters = stringArrayWithoutStartLashes.Reverse().Skip(1).Reverse().ToArray();
+
+                string[] delimiters = stringArray.Skip(1).Take(stringArray.Count() - 2).ToArray();
 
                 CheckForValidDelimiter(delimiters);
 
