@@ -22,34 +22,32 @@ namespace StringCalculator_App
             {
                 string[] stringArray = input.Split('[', ']');
 
-                //string[] stringArrayWithoutStartLashes = stringArray.Skip(1).ToArray();
-
-                //string[] delimiters = stringArrayWithoutStartLashes.Reverse().Skip(1).Reverse().ToArray();
-
                 string[] delimiters = stringArray.Skip(1).Take(stringArray.Count() - 2).ToArray();
-
+            
                 CheckForValidDelimiter(delimiters);
 
                 string inputsString = stringArray[stringArray.Length - 1];
 
-                string[] inputs = inputsString.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-
+                string finalInputsString = inputsString.Substring(inputsString.IndexOf("\\n") + 2);
+                
+                string[] inputs = finalInputsString.Split(delimiters, StringSplitOptions.None);
+        
                 return Calculate(inputs);
 
             } else if(isSingleCustomDelimiter)
             {
-                char delimiter = input[2];
-
-                string inputsString = input.Substring(input.IndexOf("\n"));
-
-                string[] inputs = inputsString.Split(delimiter);
+                char delimeter = input[2];
+                string inputsString = input.Substring(input.IndexOf("\\n") + 2);
+                
+                string[] inputs = inputsString.Split(delimeter);
 
                 return Calculate(inputs);
             }
             else
             {
-                string[] inputs = input.Split(new Char[] { ',', '\n' });
-
+                string[] delimeters = new string[] {",", "\\n"};
+                string[] inputs = input.Split(delimeters, StringSplitOptions.None);
+            
                 return Calculate(inputs);
             }
         }
