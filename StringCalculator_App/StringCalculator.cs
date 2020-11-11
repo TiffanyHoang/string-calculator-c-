@@ -9,6 +9,8 @@ namespace StringCalculator_App
     {
         public static int Add(string input)
         {
+            input = input.Replace("\\n", "\n");
+            Console.WriteLine(input);
             bool isSingleCustomDelimiter = input.StartsWith("//");
 
             bool isMultiCustomDelimiter = Regex.IsMatch(input, @"\/\/\[.*?\]");
