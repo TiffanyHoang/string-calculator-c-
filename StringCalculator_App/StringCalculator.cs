@@ -9,6 +9,7 @@ namespace StringCalculator_App
     {
         public static int Add(string input)
         {
+            input = input.Replace("\\n", "\n");
             bool isSingleCustomDelimiter = input.StartsWith("//");
 
             bool isMultiCustomDelimiter = Regex.IsMatch(input, @"\/\/\[.*?\]");
@@ -22,32 +23,34 @@ namespace StringCalculator_App
             {
                 string[] stringArray = input.Split('[', ']');
 
+                //string[] stringArrayWithoutStartLashes = stringArray.Skip(1).ToArray();
+
+                //string[] delimiters = stringArrayWithoutStartLashes.Reverse().Skip(1).Reverse().ToArray();
+
                 string[] delimiters = stringArray.Skip(1).Take(stringArray.Count() - 2).ToArray();
-            
+
                 CheckForValidDelimiter(delimiters);
 
                 string inputsString = stringArray[stringArray.Length - 1];
 
-                string finalInputsString = inputsString.Substring(inputsString.IndexOf("\\n") + 2);
-                
-                string[] inputs = finalInputsString.Split(delimiters, StringSplitOptions.None);
-        
+                string[] inputs = inputsString.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
                 return Calculate(inputs);
 
             } else if(isSingleCustomDelimiter)
             {
-                char delimeter = input[2];
-                string inputsString = input.Substring(input.IndexOf("\\n") + 2);
-                
-                string[] inputs = inputsString.Split(delimeter);
+                char delimiter = input[2];
+
+                string inputsString = input.Substring(input.IndexOf("\n"));
+
+                string[] inputs = inputsString.Split(delimiter);
 
                 return Calculate(inputs);
             }
             else
             {
-                string[] delimeters = new string[] {",", "\\n"};
-                string[] inputs = input.Split(delimeters, StringSplitOptions.None);
-            
+                string[] inputs = input.Split(new Char[] { ',', '\n' });
+
                 return Calculate(inputs);
             }
         }
