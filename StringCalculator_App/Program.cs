@@ -6,9 +6,10 @@ namespace StringCalculator_App
     {
         static void Main(string[] args)
         {
-             Console.WriteLine("String Calculator. Please add numbers:");
+            Console.WriteLine("String Calculator. Please add numbers:");
             var input = Console.ReadLine();
-            var result = StringCalculator.Add(input);
+            var finalInput = StringCalculator.Translator(input);
+            var result = StringCalculator.Add(finalInput);
             
             Console.WriteLine($"The total is: {result}");
         }

@@ -7,9 +7,13 @@ namespace StringCalculator_App
 {
     public class StringCalculator
     {
+
+        public static string Translator(string input)
+        {
+            return input.Replace("\\n", "\n");
+        }
         public static int Add(string input)
         {
-            input = input.Replace("\\n", "\n");
             bool isSingleCustomDelimiter = input.StartsWith("//");
 
             bool isMultiCustomDelimiter = Regex.IsMatch(input, @"\/\/\[.*?\]");
